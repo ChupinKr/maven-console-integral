@@ -2,6 +2,8 @@ package main;
 
 import java.util.ArrayList;
 
+import static main.Main.finishResult;
+
 public class Calculator extends Thread {
 
     int n;
@@ -13,6 +15,10 @@ public class Calculator extends Thread {
     double mainThread = 0;
 
     double result = 0;
+
+    synchronized void addToResult(double result){
+        finishResult += result;
+    }
 
     public Calculator(double a, double b, int n) {
         this.a = a;
@@ -54,15 +60,8 @@ public class Calculator extends Thread {
                 throw new RuntimeException(e);
             }
         }
-        //берем интегралы из отработавших потоков
-        if(threads.size() > 0) {
-            for (Calculator thread : threads) {
-                if (thread != null) {
-                    mainThread += thread.result;
-                }
-            }
-        }
-        //берем результаты для текущего потока
+
+        //берем результаты для текущего потока и записывает в синх. переменную
         if(results.size() > 0) {
             for (double result : results) {
                 mainResult += result;
@@ -71,7 +70,7 @@ public class Calculator extends Thread {
         }
 
         //складывает результаты по промежуткам текущего потока и его подпотоков
-        result = (mainResult + mainThread);
+        addToResult(mainResult);
 
     }
 }

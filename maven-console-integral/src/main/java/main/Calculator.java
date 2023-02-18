@@ -12,9 +12,7 @@ public class Calculator extends Thread {
     ArrayList<Double> results = new ArrayList<Double>();
     ArrayList<Calculator> threads = new ArrayList<Calculator>();
     double mainResult = 0;
-    double mainThread = 0;
 
-    double result = 0;
 
     synchronized void addToResult(double result){
         finishResult += result;
@@ -39,7 +37,6 @@ public class Calculator extends Thread {
     }
 
 
-    //Чтобы итог из тела потока можно было бы получить, я вынес этот кусок кода в отдельный метод.
     @Override
     public void run() {
         double dx = (b - a) / n;
